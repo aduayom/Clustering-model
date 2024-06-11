@@ -1,6 +1,6 @@
 # Verson opérationnelle
 -> AudienceClustering_K-prototype<br>
--> Transaction clustering
+
 
 # Audience Clustering Beta
  Beta version of audience clustering.<br>
