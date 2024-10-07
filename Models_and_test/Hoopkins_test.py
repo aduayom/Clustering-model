@@ -1,3 +1,7 @@
+from sklearn.neighbors import NearestNeighbors
+from random import sample
+import numpy as np
+
 def hopkins(X):
     d = X.shape[1]
     #d = len(vars) # columns
