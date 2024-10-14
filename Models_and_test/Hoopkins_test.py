@@ -1,6 +1,7 @@
 from sklearn.neighbors import NearestNeighbors
-from random import sample
 import numpy as np
+import pandas as pd
+from random import sample, uniform
 
 def hopkins(X):
     d = X.shape[1]
@@ -24,4 +25,35 @@ def hopkins(X):
         print(ujd, wjd)
         H = 0
  
+    return H
+
+
+def hopkins(X):
+    d = X.shape[1]  # Nombre de dimensions
+    n = len(X)  # Nombre d'échantillons
+    m = int(0.3 * n)  # Proportion d'échantillons pour le test
+    
+    # Initialiser NearestNeighbors
+    nbrs = NearestNeighbors(n_neighbors=2).fit(X)
+    
+    # Variables pour stocker les distances
+    ujd = []
+    wjd = []
+    
+    # Générer des points aléatoires dans l'espace des données
+    for j in range(m):
+        # Générer un point aléatoire dans les limites des colonnes (dimensions)
+        random_point = [uniform(np.min(X[:,i]), np.max(X[:,i])) for i in range(d)]
+        
+        # Calculer les distances des points aléatoires
+        u_dist, _ = nbrs.kneighbors([random_point], n_neighbors=2, return_distance=True)
+        ujd.append(u_dist[0][1])
+        
+        # Choisir un point réel aléatoire dans X et calculer la distance
+        w_dist, _ = nbrs.kneighbors(X[np.random.randint(0, n)].reshape(1, -1), n_neighbors=2, return_distance=True)
+        wjd.append(w_dist[0][1])
+    
+    # Calcul de la statistique de Hopkins
+    H = sum(ujd) / (sum(ujd) + sum(wjd))
+    
     return H
